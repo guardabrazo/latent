@@ -147,7 +147,7 @@ function createImageSprites() {
         console.error(`There was an error loading texture: ${url}`);
     };
     
-    const cloudinaryBaseUrl = 'https://res.cloudinary.com/dazckbnuv/image/upload/latent/';
+    const cloudinaryBaseUrl = 'https://res.cloudinary.com/dazckbnuv/image/upload/latent'; // Updated to use version path
 
     loadedEmbeddings.forEach((item, index) => {
         // Assuming item.filename is like "no_prompt_0.webp"
