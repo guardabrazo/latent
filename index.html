@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>t-SNE Image Visualization</title>
+    <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+    <div id="preloader-modal">
+        <h2>Latent</h2>
+        <p>Visualizing StableDiffusion 3.5 latent space.<br> An experiment by <a href="https://www.guardabrazo.com" target="_blank" rel="noopener noreferrer">Guardabrazo</a> for <a href="https://www.specialguestx.com" target="_blank" rel="noopener noreferrer">SpecialGuestX</a>.</p>
+        <div class="loading-bar-container">
+            <div class="loading-bar-fill" id="loading-bar-fill"></div>
+        </div>
+        <span id="start-button">Start</span>
+    </div>
+
+    <div class="toggle-switch">
+        <input type="checkbox" id="auto-rotate-toggle" class="toggle-input">
+        <label for="auto-rotate-toggle" class="toggle-label">Orbit</label>
+    </div>
+
+    <canvas id="webgl-canvas"></canvas>
+    <script type="module" src="./src/main.ts"></script>
+</body>
+</html>
