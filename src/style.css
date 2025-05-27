@@ -70,6 +70,10 @@ a {
     color: #333;
 }
 
+#preloader-modal p {
+    width: 60vh;
+}
+
 #preloader-interactive-area {
     height: 60px; /* Fixed height to prevent collapse/expansion */
     width: 100%; /* Allow content within to be centered easily */
