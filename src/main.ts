@@ -467,7 +467,8 @@ function adjustCameraForMode(mode: '3d' | '2d-scatter' | '2d-grid') {
         // Change mouse buttons for 2D: Left = PAN
         controls.mouseButtons.LEFT = THREE.MOUSE.PAN;
         controls.mouseButtons.MIDDLE = THREE.MOUSE.DOLLY; 
-        controls.mouseButtons.RIGHT = THREE.MOUSE.ROTATE; // Effectively disabled by enableRotate = false
+        // No need to set RIGHT to ROTATE if enableRotate is false.
+        // If enableRotate is false, OrbitControls won't process rotation for any button.
 
         controls.touches.ONE = THREE.TOUCH.PAN;
         controls.touches.TWO = THREE.TOUCH.DOLLY_PAN; // Standard pinch zoom/pan
