@@ -71,7 +71,13 @@ a {
 }
 
 #preloader-modal p {
-    width: 60vh;
+    width: 85vw; /* Use viewport width */
+    max-width: 550px; /* Cap the width on larger screens */
+    padding-left: 15px; /* Add some horizontal padding */
+    padding-right: 15px;
+    box-sizing: border-box; /* Include padding in the width calculation */
+    margin-left: auto; /* Center the paragraph if its max-width is reached */
+    margin-right: auto;
 }
 
 #preloader-interactive-area {
@@ -122,7 +128,7 @@ a {
     top: 20px;
     left: 20px;
     z-index: 100; /* Ensure it's above canvas and other elements if any */
-    display: flex;
+    display: none; /* Initially hidden */
     flex-direction: column; /* Stack visualization toggle above orbit toggle */
     gap: 15px; /* Space between the two toggle groups */
 }
