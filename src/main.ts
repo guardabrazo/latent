@@ -62,7 +62,7 @@ function initThreeApp() {
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.autoRotate = true; // Set autoRotate to true by default
+    controls.autoRotate = false; // Revert to false by default
     controls.autoRotateSpeed = 0.5;
     // controls.enableZoom = true; // Ensure zoom is enabled
     // controls.enablePan = true; // Ensure pan is enabled
