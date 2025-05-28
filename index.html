@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Latent</title>
-  <script type="module" crossorigin src="/assets/index-CCRqG08_.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-C3r85HGV.css">
+  <script type="module" crossorigin src="/assets/index-Bgj2w7MX.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CuLppqpk.css">
 </head>
 <body>
     <div id="preloader-modal">
@@ -21,9 +21,19 @@
 
     </div>
 
-    <div class="toggle-switch">
-        <input type="checkbox" id="auto-rotate-toggle" class="toggle-input">
-        <label for="auto-rotate-toggle" class="toggle-label">Orbit</label>
+    <div class="view-controls">
+        <div class="visualization-toggle">
+            <input type="radio" id="viz-3d" name="visualization" value="3d" checked>
+            <label for="viz-3d">3D</label>
+            <input type="radio" id="viz-2d-grid" name="visualization" value="2d-grid">
+            <label for="viz-2d-grid">2D Grid</label>
+            <input type="radio" id="viz-2d-scatter" name="visualization" value="2d-scatter">
+            <label for="viz-2d-scatter">2D Scatter</label>
+        </div>
+        <div class="toggle-switch">
+            <input type="checkbox" id="auto-rotate-toggle" class="toggle-input">
+            <label for="auto-rotate-toggle" class="toggle-label">Orbit</label>
+        </div>
     </div>
 
     <canvas id="webgl-canvas"></canvas>
