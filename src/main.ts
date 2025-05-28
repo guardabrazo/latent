@@ -3,6 +3,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { gsap } from 'gsap';
 import type { EmbeddingItem, LayoutAlgorithm } from './types';
 
+const IS_MOBILE = /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+const MAX_EMBEDDINGS_MOBILE = 1000; // Attempt to load all 1000 images on mobile with resizing
+const MOBILE_TEXTURE_WIDTH = 256; // Target width for textures on mobile
+
 let scene: THREE.Scene;
 let camera: THREE.PerspectiveCamera;
 let renderer: THREE.WebGLRenderer;
@@ -56,7 +60,9 @@ function initThreeApp() {
     const canvas = document.getElementById('webgl-canvas') as HTMLCanvasElement;
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+
+    // Cap devicePixelRatio on mobile devices for performance
+    renderer.setPixelRatio(IS_MOBILE ? Math.min(window.devicePixelRatio, 1.5) : window.devicePixelRatio);
     renderer.outputColorSpace = THREE.SRGBColorSpace; 
 
     controls = new OrbitControls(camera, renderer.domElement);
@@ -83,7 +89,17 @@ async function loadDataAndSetupUI() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         loadedEmbeddings = await response.json();
-        console.log(`Loaded ${loadedEmbeddings.length} embeddings.`);
+        console.log(`Loaded ${loadedEmbeddings.length} embeddings initially.`);
+
+        if (IS_MOBILE && loadedEmbeddings.length > MAX_EMBEDDINGS_MOBILE) {
+            // Shuffle and take a subset to make it somewhat random and representative
+            for (let i = loadedEmbeddings.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [loadedEmbeddings[i], loadedEmbeddings[j]] = [loadedEmbeddings[j], loadedEmbeddings[i]];
+            }
+            loadedEmbeddings = loadedEmbeddings.slice(0, MAX_EMBEDDINGS_MOBILE);
+            console.log(`On mobile, reduced embeddings to ${loadedEmbeddings.length}`);
+        }
 
         calculatePCABounds();
         calculateTsne3DBounds(); // For 3D Scatter
@@ -191,14 +207,21 @@ function createImageSprites() {
         console.error(`There was an error loading texture: ${url}`);
     };
     
-    const cloudinaryBaseUrl = 'https://res.cloudinary.com/dazckbnuv/image/upload/v1748342088/'; // Updated to use version path
+    const cloudName = 'dazckbnuv';
+    const imageVersionPath = 'v1748342088'; // The version part of the Cloudinary URL
 
     loadedEmbeddings.forEach((item, index) => {
-        // Assuming item.filename is like "no_prompt_0.webp"
-        // And Cloudinary Public ID is "latent/no_prompt_0"
-        // So, we want to construct "https://res.cloudinary.com/dazckbnuv/image/upload/latent/no_prompt_0.webp"
         const filenameWithoutExtension = item.filename.substring(0, item.filename.lastIndexOf('.'));
-        const imageUrl = `${cloudinaryBaseUrl}${filenameWithoutExtension}.webp`;
+        let imageUrl = '';
+
+        if (IS_MOBILE) {
+            // Construct URL with width transformation for mobile
+            imageUrl = `https://res.cloudinary.com/${cloudName}/image/upload/w_${MOBILE_TEXTURE_WIDTH}/${imageVersionPath}/${filenameWithoutExtension}.webp`;
+        } else {
+            // Original URL for desktop
+            imageUrl = `https://res.cloudinary.com/${cloudName}/image/upload/${imageVersionPath}/${filenameWithoutExtension}.webp`;
+        }
+        // console.log(`Loading image: ${imageUrl}`); // For debugging
 
         localTextureLoader.load(
             imageUrl,
