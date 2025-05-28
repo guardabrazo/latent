@@ -62,7 +62,7 @@ function initThreeApp() {
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.autoRotate = false; // Revert to false by default
+    controls.autoRotate = false; 
     controls.autoRotateSpeed = 0.5;
     // controls.enableZoom = true; // Ensure zoom is enabled
     // controls.enablePan = true; // Ensure pan is enabled
@@ -464,15 +464,6 @@ function adjustCameraForMode(mode: '3d' | '2d-scatter' | '2d-grid') {
         if (autoRotateCheckbox) autoRotateCheckbox.checked = false;
         if (orbitToggleContainer) orbitToggleContainer.style.display = 'none';
 
-        // Change mouse buttons for 2D: Left = PAN
-        controls.mouseButtons.LEFT = THREE.MOUSE.PAN;
-        controls.mouseButtons.MIDDLE = THREE.MOUSE.DOLLY; 
-        // No need to set RIGHT to ROTATE if enableRotate is false.
-        // If enableRotate is false, OrbitControls won't process rotation for any button.
-
-        controls.touches.ONE = THREE.TOUCH.PAN;
-        controls.touches.TWO = THREE.TOUCH.DOLLY_PAN; // Standard pinch zoom/pan
-
         // Consider enabling pan more freely for 2D:
         // controls.minPolarAngle = Math.PI / 2; 
         // controls.maxPolarAngle = Math.PI / 2;
@@ -495,15 +486,6 @@ function adjustCameraForMode(mode: '3d' | '2d-scatter' | '2d-grid') {
         });
         controls.enableRotate = true;
         if (orbitToggleContainer) orbitToggleContainer.style.display = 'inline-block'; // Or 'block' or original style
-        
-        // Reset mouse buttons for 3D: Left = ROTATE, Right = PAN
-        controls.mouseButtons.LEFT = THREE.MOUSE.ROTATE;
-        controls.mouseButtons.MIDDLE = THREE.MOUSE.DOLLY;
-        controls.mouseButtons.RIGHT = THREE.MOUSE.PAN;
-
-        controls.touches.ONE = THREE.TOUCH.ROTATE;
-        controls.touches.TWO = THREE.TOUCH.DOLLY_PAN; // Standard pinch zoom/rotate
-
         // Restore checkbox state based on controls.autoRotate if needed, or leave as is
         // Reset polar/azimuth angle constraints if they were set for 2D
         // controls.minPolarAngle = 0; 
@@ -565,10 +547,6 @@ function setupPreloader() {
                 }
                 if (animationFrameId === null) { 
                     animate(); 
-                }
-                const viewControls = document.querySelector('.view-controls') as HTMLElement | null;
-                if (viewControls) {
-                    viewControls.style.display = 'flex'; // Show the controls
                 }
             }
         });

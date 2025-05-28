@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "rm -rf dist && vite build",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages --dist dist --branch gh-pages --message \"Deploy to GitHub Pages\" --dotfiles"
